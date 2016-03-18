@@ -13,8 +13,16 @@ public class MouseLook : MonoBehaviour {
 	// Public var to set and serialize in Unity editor.
 	public RotationAxes axes = RotationAxes.MouseXAndY;
 
-	// Speed of horizontal rotation wrt mouse movement.
+	// Speed of rotation wrt mouse movement.
 	public float sensitivityHor = 9.0f;
+	public float sensitivityVert = 9.0f;
+
+	// Limit vertical rotation for looking up/down.
+	public float minimumVert = -45.0f;
+	public float maximumVert = 45.0f;
+
+	// Vertical angle.
+	private float _rotationX = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +35,21 @@ public class MouseLook : MonoBehaviour {
 			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
 		}
 		else if (axes == RotationAxes.MouseY) {
-			// vertical rotation here.
+			// Set vertical rotation angle directly instead of
+			// incrementing/decrementing it via transform.Rotate(). This allows
+			// us to restrict the angle range later on.
+			_rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
+
+			// Restrict the vertical rotation to min and max angles.
+			_rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
+
+			float rotationY = transform.localEulerAngles.y;
+
+			// Create a new vector and set the rotation angles directly.
+			// The reason why we need to create a new Vector3 instead of changing
+			// values in the existing vector in the transform is because those
+			// values are read-only for transforms.
+			transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
 		}
 		else {
 			// both horizontal and vertical rotation here.
