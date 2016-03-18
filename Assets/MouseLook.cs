@@ -26,7 +26,15 @@ public class MouseLook : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		// Although this doesn’t matter quite yet for this project, in most modern
+		// FPS games there’s a complex physics simulation affecting everything in
+		// the scene. This will cause objects to bounce and tumble around; this behavior
+		// looks and works great for most objects, but the player’s rotation needs to be
+		// solely controlled by the mouse and not affected by the physics simulation.
+		Rigidbody body = GetComponent<Rigidbody>();
+		if (body != null) {
+			body.freezeRotation = true;
+		}
 	}
 	
 	// Update is called once per frame
