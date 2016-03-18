@@ -31,9 +31,11 @@ public class MouseLook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Allow only horizontal rotation.
 		if (axes == RotationAxes.MouseX) {
 			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
 		}
+		// Allow only vertical rotation.
 		else if (axes == RotationAxes.MouseY) {
 			// Set vertical rotation angle directly instead of
 			// incrementing/decrementing it via transform.Rotate(). This allows
@@ -51,8 +53,19 @@ public class MouseLook : MonoBehaviour {
 			// values are read-only for transforms.
 			transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
 		}
+		// Allow both horizontal and vertical rotation.
 		else {
-			// both horizontal and vertical rotation here.
+			// Calculate and limit vertical rotation as before.
+			_rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
+			_rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
+
+			// Calculate the absolute value of horizontal rotation rather than
+			// incrementing/decrementing it. This allows us to then set the
+			// horizontal and vertical rotation angles directly.
+			float delta = Input.GetAxis("Mouse X") * sensitivityHor;
+			float rotationY = transform.localEulerAngles.y + delta;
+
+			transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
 		}
 	}
 }
