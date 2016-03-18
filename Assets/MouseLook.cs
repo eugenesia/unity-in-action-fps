@@ -13,6 +13,9 @@ public class MouseLook : MonoBehaviour {
 	// Public var to set and serialize in Unity editor.
 	public RotationAxes axes = RotationAxes.MouseXAndY;
 
+	// Speed of horizontal rotation wrt mouse movement.
+	public float sensitivityHor = 9.0f;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -21,7 +24,7 @@ public class MouseLook : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (axes == RotationAxes.MouseX) {
-			// horizontal rotation here.
+			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
 		}
 		else if (axes == RotationAxes.MouseY) {
 			// vertical rotation here.
