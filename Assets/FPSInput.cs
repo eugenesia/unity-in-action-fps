@@ -13,6 +13,11 @@ public class FPSInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(0, speed, 0);
+		// "Horizontal" and "Vertical" are indirect names for
+		// keyboard mappings.
+		float deltaX = Input.GetAxis("Horizontal") * speed;
+		float deltaZ = Input.GetAxis("Vertical") * speed;
+
+		transform.Translate(deltaX, 0, deltaZ);
 	}
 }
