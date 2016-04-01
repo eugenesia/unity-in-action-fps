@@ -18,6 +18,7 @@ public class FPSInput : MonoBehaviour {
 		float deltaX = Input.GetAxis("Horizontal") * speed;
 		float deltaZ = Input.GetAxis("Vertical") * speed;
 
-		transform.Translate(deltaX, 0, deltaZ);
+		// Multiply by deltaTime to get frame rate-independent movement.
+		transform.Translate(deltaX * Time.deltaTime, 0, deltaZ * Time.deltaTime);
 	}
 }
