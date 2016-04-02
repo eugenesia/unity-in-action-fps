@@ -9,6 +9,8 @@ public class FPSInput : MonoBehaviour {
 	// Reference CharacterController component.
 	private CharacterController _charController;
 
+	public float gravity = -9.8f;
+
 	// Use this for initialization
 	void Start () {
 		// Access other components connected to the same object.
@@ -25,6 +27,7 @@ public class FPSInput : MonoBehaviour {
 
 		// Limit diagonal movement to same speed as movement along an axis.
 		movement = Vector3.ClampMagnitude(movement, speed);
+		movement.y = gravity;
 
 		// Make movement speed independent of frame rate.
 		movement *= Time.deltaTime;
