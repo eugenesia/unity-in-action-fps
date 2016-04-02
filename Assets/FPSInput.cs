@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+// Ensure that CharacterController component is added.
+[RequireComponent(typeof(CharacterController))]
+// Add this script to the "Add Component" dropdown.
+[AddComponentMenu("Control Script/FPS Input")]
+
+
 // Allow moving the player.
 public class FPSInput : MonoBehaviour {
 	// Speed of movement.
