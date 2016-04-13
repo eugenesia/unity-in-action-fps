@@ -8,8 +8,23 @@ public class RayShooter : MonoBehaviour {
 	void Start () {
 		// Access the camera component attached to same object.
 		_camera = GetComponent<Camera>();
+
+		// Hide mouse cursor at centre of screen so as not to interfere with crosshair.
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
-	
+
+	// Called in the GUI drawing phase, after 3D rendering.
+	// Draw a crosshair in the centre of the screen.
+	void OnGUI() {
+		int size = 12;
+		float posX = _camera.pixelWidth/2 - size/4;
+		float posY = _camera.pixelHeight/2 - size/2;
+
+		// Display text on screen to act as crosshair.
+		GUI.Label(new Rect(posX, posY, size, size), "*");
+	}
+
 	// Update is called once per frame
 	void Update () {
 		// Respond to mouse click.
