@@ -21,8 +21,25 @@ public class RayShooter : MonoBehaviour {
 			Ray ray = _camera.ScreenPointToRay(point);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)) {
-				Debug.Log("Hit " + hit.point);
+				// Launch non-blocking coroutine to show a sphere where ray hit something.
+				StartCoroutine(SphereIndicator(hit.point));
 			}
 		}
+	}
+
+	// Create a sphere to indicate where the ray hit.
+	// Coroutines use IEnumerator functions.
+	// pos: Position to create a sphere.
+	private IEnumerator SphereIndicator(Vector3 pos) {
+		GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
+		// Set centre of sphere.
+		sphere.transform.position = pos;
+
+		// Yield keyword tells coroutines where to pause.
+		yield return new WaitForSeconds(1);
+
+		// After the pause, remove this GameObject and clear its memory.
+		Destroy(sphere);
 	}
 }
