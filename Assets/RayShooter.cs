@@ -36,8 +36,21 @@ public class RayShooter : MonoBehaviour {
 			Ray ray = _camera.ScreenPointToRay(point);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)) {
-				// Launch non-blocking coroutine to show a sphere where ray hit something.
-				StartCoroutine(SphereIndicator(hit.point));
+
+				// The GameObject that was hit.
+				GameObject hitObject = hit.transform.gameObject;
+
+				// ReactiveTarget script component on the object.
+				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+
+				if (target != null) {
+					// GameObject with ReactiveTarget component was hit.
+					Debug.Log("Target hit");
+				} else {
+					// Something else was hit.
+					// Launch non-blocking coroutine to show a sphere where ray hit something.
+					StartCoroutine(SphereIndicator(hit.point));
+				}
 			}
 		}
 	}
