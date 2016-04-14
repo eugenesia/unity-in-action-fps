@@ -44,8 +44,9 @@ public class RayShooter : MonoBehaviour {
 				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
 
 				if (target != null) {
-					// GameObject with ReactiveTarget component was hit.
-					Debug.Log("Target hit");
+					// GameObject with ReactiveTarget component was hit. Call a method of the
+					// target instead of just emitting a debug message.
+					target.ReactToHit();
 				} else {
 					// Something else was hit.
 					// Launch non-blocking coroutine to show a sphere where ray hit something.
