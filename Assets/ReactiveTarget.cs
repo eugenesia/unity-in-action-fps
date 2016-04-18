@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// For a character to react to a hit.
 public class ReactiveTarget : MonoBehaviour {
 
 	// Use this for initialization
@@ -13,6 +14,13 @@ public class ReactiveTarget : MonoBehaviour {
 
 	// React to being hit. Called by shooting script.
 	public void ReactToHit() {
+		// Check if character has a WanderingAI script - it might not.
+		WanderingAI behavior = GetComponent<WanderingAI>();
+
+		// Set char as "dead" so it will stop wandering.
+		if (behavior != null) {
+			behavior.SetAlive(false);
+		}
 		StartCoroutine(Die());
 	}
 
