@@ -10,6 +10,12 @@ public class WanderingAI : MonoBehaviour {
 	// Whether the enemy is alive.
 	private bool _alive;
 
+	// Fireball to shoot at player. Each fireball is instantiated from a
+	// prefab.
+	[SerializeField] private GameObject fireballPrefab;
+	private GameObject _fireball;
+
+
 	// Use this for initialization
 	void Start () {
 		_alive = true;
@@ -34,8 +40,23 @@ public class WanderingAI : MonoBehaviour {
 			// Set cast sphere radius at 0.75.
 			if (Physics.SphereCast(ray, 0.75f, out hit)) {
 
+				// GameObject that was detected by the raycast.
+				GameObject hitObject = hit.transform.gameObject;
+
+				// Player is in front of the enemy.
+				if (hitObject.GetComponent<PlayerCharacter>()) {
+					if (_fireball == null) {
+						_fireball = Instantiate(fireballPrefab) as GameObject;
+
+						// Place fireball in front of enemy, and point in same direction.
+						_fireball.transform.position =
+							transform.TransformPoint(Vector3.forward * 1.5f);
+						_fireball.transform.rotation = transform.rotation;
+					}
+				}
+
 				// Obstacle is within range.
-				if (hit.distance < obstacleRange) {
+				else if (hit.distance < obstacleRange) {
 
 					// Turn a random angle away from forward.
 					float angle = Random.Range(-110, 110);
